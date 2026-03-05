@@ -15,7 +15,9 @@ type Server struct {
 }
 
 func NewServer() *Server {
-	return &Server{q: &Queue{}}
+	maxSimultaneousLines := 1000
+	queue := NewQueue(maxSimultaneousLines)
+	return &Server{q: queue}
 }
 
 func (s *Server) Start(addr string) error {

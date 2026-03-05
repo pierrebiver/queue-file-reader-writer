@@ -1,7 +1,6 @@
 package command
 
 import (
-	"fmt"
 	"strings"
 )
 
@@ -15,9 +14,7 @@ func (c PushCommand) Is(line string) bool {
 
 func (c PushCommand) Execute(line string, q Store) (string, error) {
 	item := strings.TrimPrefix(line, "PUSH ")
-	if item == "" {
-		return "", fmt.Errorf("PUSH requires a value")
-	}
+
 	q.Push(item)
 	return "OK", nil
 }

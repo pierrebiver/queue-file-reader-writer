@@ -1,12 +1,10 @@
 package command
 
-// Store is the minimal interface a queue must satisfy.
 type Store interface {
 	Push(item string)
-	Pop() (string, bool)
+	Pop() string
 }
 
-// Command represents a protocol command that can recognise and execute itself.
 type Command interface {
 	CommandName() string
 	Is(line string) bool

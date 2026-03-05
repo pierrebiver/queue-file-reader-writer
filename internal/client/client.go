@@ -37,19 +37,17 @@ func (c *Client) Push(line string) error {
 	return nil
 }
 
-func (c *Client) Pop() (string, bool, error) {
+func (c *Client) Pop() (string, error) {
 	cmd := command.PopCommand{}
 	resp, err := c.send(cmd.CommandName())
 	if err != nil {
-		return "", false, fmt.Errorf("pop: %w", err)
+		return "", fmt.Errorf("pop: %w", err)
 	}
 	switch {
 	case strings.HasPrefix(resp, "DATA "):
-		return strings.TrimPrefix(resp, "DATA "), true, nil
-	case resp == "EMPTY":
-		return "", false, nil
+		return strings.TrimPrefix(resp, "DATA "), nil
 	default:
-		return "", false, fmt.Errorf("pop: unexpected response: %s", resp)
+		return "", fmt.Errorf("pop: unexpected response: %s", resp)
 	}
 }
 

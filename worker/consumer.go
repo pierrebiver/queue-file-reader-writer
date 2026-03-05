@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"log"
 	"os"
-	"time"
 
 	"queue-file-reader-writer.com/internal/client"
 	"queue-file-reader-writer.com/internal/command"
@@ -28,15 +27,11 @@ func consume(addr, outputPath string) error {
 	defer writer.Flush()
 
 	for {
-		line, ok, err := c.Pop()
+		line, err := c.Pop()
 		if err != nil {
 			return err
 		}
-		if !ok {
-			// Queue is empty — producer hasn't caught up yet, wait briefly
-			time.Sleep(10 * time.Millisecond)
-			continue
-		}
+
 		if command.EOF.Is(line) {
 			log.Println("consumer: received EOF sentinel, done")
 			return nil
